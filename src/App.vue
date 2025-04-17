@@ -36,6 +36,9 @@ const userItemSelect = (item: IItem): void => {
     userChosenItems.value.push(item)
   }
 }
+
+const itemSelect = (item: IItem): void => (chosenItem.value = item)
+const itemUnselect = (): void => (chosenItem.value = undefined)
 </script>
 
 <template>
@@ -52,7 +55,7 @@ const userItemSelect = (item: IItem): void => {
         </div>
       </div>
       <div class="single-item-wrapper">
-        <ItemCard v-if="chosenItem" class="single-item" :item="chosenItem" />
+        <ItemCard v-if="chosenItem" class="single-item" :item="chosenItem" @click="itemUnselect" />
       </div>
     </div>
     <div class="items-row">
@@ -65,7 +68,12 @@ const userItemSelect = (item: IItem): void => {
         />
       </div>
       <div class="items-list">
-        <ItemCard v-for="item in itemsToChoose" :key="item.id" :item="item" />
+        <ItemCard
+          v-for="item in itemsToChoose"
+          :key="item.id"
+          :item="item"
+          @click="itemSelect(item)"
+        />
       </div>
     </div>
   </div>
@@ -109,8 +117,8 @@ const userItemSelect = (item: IItem): void => {
       width: 100%
 
 .single-item
-  height: 100%
-  width: auto
+  width: 100%
+  max-width: 107px
 
   &-wrapper
     width: 100%
