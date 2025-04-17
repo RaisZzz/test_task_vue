@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ItemCard from '@/components/ItemCard.vue'
 import type { IItem } from '@/models/item.ts'
+import { ref, type Ref } from 'vue'
 
 const userItems: IItem[] = [
   { id: 1, name: 'Shoes 1' },
@@ -23,10 +24,23 @@ const itemsToChoose: IItem[] = [
   { id: 17, name: 'Hoodie 3' },
   { id: 18, name: 'Hoodie 4' },
 ]
+
+const userChosenItems: Ref<IItem[]> = ref([])
+const chosenItem: Ref<IItem | undefined> = ref()
 </script>
 
 <template>
-  <div class="container">
+  <div class="container items">
+    <div class="items-row">
+      <div class="items-chosen-wrapper">
+        <div class="items-chosen">
+          <ItemCard v-for="item in userChosenItems" :key="item.id" :item="item" />
+        </div>
+      </div>
+      <div class="single-item-wrapper">
+        <ItemCard v-if="chosenItem" class="single-item" :item="chosenItem" />
+      </div>
+    </div>
     <div class="items-row">
       <div class="items-list">
         <ItemCard v-for="item in userItems" :key="item.id" :item="item" />
@@ -40,11 +54,16 @@ const itemsToChoose: IItem[] = [
 
 <style scoped lang="sass">
 .items
+  display: flex
+  flex-direction: column
+  gap: 20px
+
   &-row
     width: 100%
     display: flex
     align-items: stretch
-    gap: 10px
+    gap: 20px
+    justify-content: space-between
 
   &-list
     width: 100%
@@ -55,4 +74,27 @@ const itemsToChoose: IItem[] = [
     grid-gap: 10px
     min-height: 500px
     align-content: start
+
+  &-chosen
+    width: 100%
+    max-width: 200px
+    border: 2px solid #000
+    padding: 10px
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    grid-gap: 10px
+    flex: auto
+    min-height: 107px
+
+    &-wrapper
+      width: 100%
+
+.single-item
+  height: 100%
+  width: auto
+
+  &-wrapper
+    width: 100%
+    display: flex
+    justify-content: flex-end
 </style>
