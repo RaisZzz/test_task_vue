@@ -3,6 +3,7 @@ import ItemCard from '@/components/ItemCard.vue'
 import type { IItem } from '@/models/item.ts'
 import { ref, type Ref } from 'vue'
 
+const maxUserItemsSelectedCount: number = 6
 const userItems: IItem[] = [
   { id: 1, name: 'Shoes 1' },
   { id: 2, name: 'Shoes 2' },
@@ -13,7 +14,6 @@ const userItems: IItem[] = [
   { id: 7, name: 'T-shirt 3' },
   { id: 8, name: 'T-shirt 4' },
 ]
-
 const itemsToChoose: IItem[] = [
   { id: 11, name: 'Jacket 1' },
   { id: 12, name: 'Jacket 2' },
@@ -33,7 +33,9 @@ const userItemSelect = (item: IItem): void => {
   if (itemExistIndex >= 0) {
     userChosenItems.value.splice(itemExistIndex, 1)
   } else {
-    userChosenItems.value.push(item)
+    if (userChosenItems.value.length < maxUserItemsSelectedCount) {
+      userChosenItems.value.push(item)
+    }
   }
 }
 
