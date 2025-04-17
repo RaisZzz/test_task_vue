@@ -27,6 +27,15 @@ const itemsToChoose: IItem[] = [
 
 const userChosenItems: Ref<IItem[]> = ref([])
 const chosenItem: Ref<IItem | undefined> = ref()
+
+const userItemSelect = (item: IItem): void => {
+  const itemExistIndex: number = userChosenItems.value.findIndex((i: IItem) => i.id === item.id)
+  if (itemExistIndex >= 0) {
+    userChosenItems.value.splice(itemExistIndex, 1)
+  } else {
+    userChosenItems.value.push(item)
+  }
+}
 </script>
 
 <template>
@@ -34,7 +43,12 @@ const chosenItem: Ref<IItem | undefined> = ref()
     <div class="items-row">
       <div class="items-chosen-wrapper">
         <div class="items-chosen">
-          <ItemCard v-for="item in userChosenItems" :key="item.id" :item="item" />
+          <ItemCard
+            v-for="item in userChosenItems"
+            :key="item.id"
+            :item="item"
+            @click="userItemSelect(item)"
+          />
         </div>
       </div>
       <div class="single-item-wrapper">
@@ -43,7 +57,12 @@ const chosenItem: Ref<IItem | undefined> = ref()
     </div>
     <div class="items-row">
       <div class="items-list">
-        <ItemCard v-for="item in userItems" :key="item.id" :item="item" />
+        <ItemCard
+          v-for="item in userItems"
+          :key="item.id"
+          :item="item"
+          @click="userItemSelect(item)"
+        />
       </div>
       <div class="items-list">
         <ItemCard v-for="item in itemsToChoose" :key="item.id" :item="item" />
