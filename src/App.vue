@@ -39,8 +39,12 @@ const userItemSelect = (item: IItem): void => {
   }
 }
 
-const itemSelect = (item: IItem): void => (chosenItem.value = item)
-const itemUnselect = (): void => (chosenItem.value = undefined)
+const itemSelect = (item: IItem): void => {
+  chosenItem.value = item
+}
+const itemUnselect = (): void => {
+  chosenItem.value = undefined
+}
 </script>
 
 <template>
